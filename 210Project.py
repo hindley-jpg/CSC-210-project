@@ -4,7 +4,7 @@
 def advisor_bot():
     print("--- CS ADVISOR ENGINE v2.0 ---")
     #questions for Dr Hui:
-    # 1. modularity? to what extent? 2. should i scrape the course list, or do static? 3. Electives..placeholders, or do I need to account for all possibilities?
+    #  1. Electives..placeholders, or do I need to account for all possibilities?
     # 
     # 1. ACADEMIC STATE (Inputs) 
     passed_math121 = input("Passed Calculus I? (y/n): ") == 'y'
@@ -17,27 +17,10 @@ def advisor_bot():
         return (f"Course({self.code}, {self.name}, "
                 f"Prereqs: [{prereq_str}], Passed: {self.is_passed})")
     
-    
-    CSC120 =  Course("CSC 120", "Intro to Computational Thinking",3,) #planning to make this list a separate module and import
-    MATH121 = Course("MATH 121", "Calculus I",4,)
-    ENG101 = Course("ENG 101", "Writing and Rhetoric", 3,)
-    CSC123 = Course("CSC 123", "Intro to Computer Programming",3,)
-    PHIL201 = Course("PHIL 201", "The Classical Mind", 3)
-    MATH122 = Course("Math 122", "Calculus II", 4, ["Math121"],)
-    CSC223 = Course("CSC 223", "Object Oriented Programming", 3,)
-    CSC220 = Course("CSC 220", "Discrete Mathematics",3,)
-    PHIL202 = Course("PHIL 202", "The Modern Mind", 3)
-    TRS201 = Course("TRS 201", "Faith Seeking Understanding",3)
-    CSC212 = Course("CSC 212", "Theory of Computing", 3,)
-    CSC280 = Course("CSC280", "Data Structures", 3)
-    CSC370 = Course("CSC 370", "Concepts of Programming Languages")
-    TRS202A = Course("TRS 202A","",3)
-    TRS202B = Course("TRS 202B")
-    course_List = [CSC120, MATH121, ENG101, CSC123, PHIL201, MATH122, CSC220, CSC223, PHIL202, TRS201, CSC212, CSC280, CSC370, TRS202A, TRS202B,
-                   ]
+    from Scraper1 import course_objects #bringing in my list of scraped courses from scraper
 
     proposition_map = {
-    course.code: chr(112 + i) for i, course in enumerate(course_List)
+    course.code: chr(112 + i) for i, course in enumerate(course_objects)
     }
     print(proposition_map)
 
