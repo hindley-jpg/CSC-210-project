@@ -3,8 +3,10 @@
 # The Advisor Engine: Year 1 to Year 2 Logic
 def advisor_bot():
     print("--- CS ADVISOR ENGINE v2.0 ---")
-    
-    # 1. ACADEMIC STATE (Inputs) ...divide each week into module? how block is block?
+    #questions for Dr Hui:
+    # 1. modularity? to what extent? 2. should i scrape the course list, or do static? 3. Electives..placeholders, or do I need to account for all possibilities?
+    # 
+    # 1. ACADEMIC STATE (Inputs) 
     passed_math121 = input("Passed Calculus I? (y/n): ") == 'y'
     passed_CSC210 = input("Passed Discrete Math (CSC 210)? (y/n): ") == 'y'
     passed_CSC223 = input("Passed OOP (CSC 223)? (y/n): ") == 'y'
@@ -15,7 +17,7 @@ def advisor_bot():
             self.is_passed = is_passed 
             self.complete = complete
             self.num_credits = num_credits
-            self.prerequisites = prerequisites if prerequisites else []
+            self.prerequisites = prerequisites 
 
     def __repr__(self):
         # Join the list into a readable string for the repr
