@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+from model import Course
 def scrape_computer_science_curriculum(url):
     try:
         # Send a GET request to the URL
@@ -51,15 +51,6 @@ def filter_curriculum(course_list, key, value):
     return [item for item in course_list if value.lower() in item[key].lower()]
 #Freshman_fall = filter_curriculum(data,"year", "Year 1 Fall")
 #print(Freshman_fall)
-
-class Course: #creating course class to hold course objects from scrape
-    def __init__(self, code, name, num_credits, prerequisites=None, is_passed=False, complete=False):
-        self.code = code
-        self.name = name
-        self.num_credits = num_credits
-        self.prerequisites = prerequisites
-        self.is_passed = is_passed
-        self.complete = complete
 
 #list of objects for each course scraped
 course_objects = [Course(code=item['code'], name=item['course'], num_credits=int(item['credits'])) for item in data]

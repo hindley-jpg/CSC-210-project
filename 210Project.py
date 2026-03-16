@@ -10,15 +10,7 @@ def advisor_bot():
     passed_math121 = input("Passed Calculus I? (y/n): ") == 'y'
     passed_CSC210 = input("Passed Discrete Math (CSC 210)? (y/n): ") == 'y'
     passed_CSC223 = input("Passed OOP (CSC 223)? (y/n): ") == 'y'
-    class Course:
-        def __init__(self, code, name, num_credits, prerequisites=None, is_passed=False, complete=False):
-            self.code = code
-            self.name = name
-            self.is_passed = is_passed 
-            self.complete = complete
-            self.num_credits = num_credits
-            self.prerequisites = prerequisites 
-
+    from model import Course
     def __repr__(self):
         # Join the list into a readable string for the repr
         prereq_str = ", ".join(self.prerequisites) if self.prerequisites else "None"
