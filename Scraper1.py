@@ -49,18 +49,13 @@ url = "https://engineering.catholic.edu/academics/undergraduate/computer-science
 
 # Execute the scraper
 data = scrape_computer_science_curriculum(url)
-for item in data: print(item) #need to deal with the weird totals
 #option to filter results
-def filter_curriculum(course_list, key, value):
-    return [item for item in course_list if value.lower() in item[key].lower()]
-#Freshman_fall = filter_curriculum(data,"year", "Year 1 Fall")
-#print(Freshman_fall)
 
 #list of objects for each course scraped
-course_objects = [Course(code=item['code'], name=item['course'], num_credits=int(item['credits'])) for item in data]
+course_objects = [Course(code=item['code'], name=item['course'], num_credits=int(item['credits']),year=item['year']) for item in data]
 
 
 # 3. Verify it worked by accessing an attribute
 print(f"Total objects created: {len(course_objects)}")
 if course_objects:
-    print(f"First course code: {course_objects[0].code}")
+    print(f"First course code: {course_objects[0].year}")

@@ -5,43 +5,37 @@ def advisor_bot():
     print("--- CS ADVISOR ENGINE v2.0 ---")
     
     # 1. ACADEMIC STATE (Inputs) 
-    from model import Course
     from Scraper1 import course_objects #bringing in my list of scraped courses from scraper
-    course_map = {
-    course.code: course for course in (course_objects)
-    }
-    print(course_map)
+    from Prereq_cheque import check_eligibility
+    from output_test import recommend_course_plans
+
     prerequisites_map = {
-    "CSC123": [],
-    "CSC223": ["CSC123"],
-    "CSC280": ["CSC223"],
-    # ... and so on
+    "CSC 123": [],
+    "CSC 223": ["CSC 123"],
+    "CSC 212": ["CSC 210"],
+    "CSC 280": ["CSC 223"],
+    "CSC 323": ["CSC 123"],
+    "CSC 322": ["CSC 280"],
+    "CSC 363": ["CSC 280"], 
+    "CSC 370": ["CSC 280"],
+    "CSC 442": ["CSC 363"], 
+    "CSC 390": ["CSC 326"],
+    "CSC 306": ["CSC 390"],
+    "MATH 122": ["MATH 121"],
+    "MATH 309": ["MATH 122"],
+    "PHIL 202": ["PHIL 201"],
+    "PHIL 362": ["PHIL 202"],
+    "TRS 202": ["TRS 201"],
     }
-
+    #applying prerequesite dictionary to course_objects dictionary 
     for course in course_objects:
-        course.prerequisites = prerequisites_map.get(course.code, [])
-
-    # 2. INFERENCE RULES
-    # Transitivity Check: Discrete Math is the gateway to Theory of Computing (212)
-    #can_take_theory = passed_CSC210
-    
-    # Prerequisite Check: OOP is Necessary for Data Structures (280)
-    #can_take_data = passed_CSC223
-    
-    # 3. YEAR 2 PREDICTIONS (Transitivity + Modus Ponens)
-    # If you can take Data Structures, you can eventually take Graphics (322)
-    #can_eventually_take_graphics = can_take_data
-    
-   # print("\n--- YOUR LOGICAL PATH ---")
-    # if can_take_theory:
-    #     print("[ELIGIBLE]: CSC 212 (Theory of Computing)")
-    # else:
-    #     print("[BLOCKED]: CSC 212. Reason: Discrete Math (210) is a Necessary Condition.")
-        
-    # if can_eventually_take_graphics:
-    #     print("[PATH OPEN]: You are on track for CSC 322 (Graphics) in Semester 4.")
-    # else:
-    #     # Modus Tollens
-    #     print("[PATH BLOCKED]: Senior Graphics is unreachable until CSC 223 is cleared.")
+        course.prerequisites = prerequisites_map.get(course.code, []) 
+    check_eligibility(course_objects)
+    semester_order = [
+        "year 1 fall", "year 1 spring",
+        "year 2 fall", "year 2 spring",
+        "year 3 fall", "year 3 spring",
+        "year 4 fall", "year 4 spring"
+    ]
 
 advisor_bot()

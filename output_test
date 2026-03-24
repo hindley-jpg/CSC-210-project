@@ -1,0 +1,69 @@
+def recommend_course_plans(courses: list, num_plans: int = 3) -> None:
+    course_map = {c.code: c for c in courses}
+
+    # Get the current semester from the user
+    current_semester = input("Enter your current semester (e.g. 'Year 1 Fall'): ").strip().lower()
+
+    # Define semester progression order
+    semester_order = [
+        "year 1 fall", "year 1 spring",
+        "year 2 fall", "year 2 spring",
+        "year 3 fall", "year 3 spring",
+        "year 4 fall", "year 4 spring"
+    ]
+
+    # Find the 3 semesters following the current one
+    if current_semester not in semester_order:
+        print(f"Semester '{current_semester}' not recognized.")
+        return
+
+    current_index = semester_order.index(current_semester)
+    future_semesters = semester_order[current_index + 1 : current_index + 4]
+
+    if not future_semesters:
+        print("No future semesters to plan for.")
+        return
+
+    # Build a plan: for each future semester, determine eligible and ineligible courses
+    def build_plan(course_map):
+        plan = {}
+        for semester in future_semesters:
+            semester_courses = [c for c in courses if c.year.lower() == semester]
+            eligible = []
+            ineligible = []
+
+            for course in semester_courses:
+                prereqs_met = all(
+                    course_map[p].is_passed
+                    for p in course.prerequisites
+                    if p in course_map
+                )
+                if prereqs_met:
+                    eligible.append(course)
+                else:
+                    ineligible.append(course)
+
+            plan[semester] = {"eligible": eligible, "ineligible": ineligible}
+        return plan
+
+    # Generate plans by simulating different assumptions about elective choices
+    print(f"\nGenerating {num_plans} possible course plans for the next 3 semesters...\n")
+
+    for plan_num in range(1, num_plans + 1):
+        print(f"======= Plan {plan_num} =======")
+        plan = build_plan(course_map)
+
+        for semester, data in plan.items():
+            print(f"\n  {semester.title()}")
+
+            if data["eligible"]:
+                print("  Eligible courses:")
+                for c in data["eligible"]:
+                    print(f"    - {c.code}: {c.name}")
+
+            if data["ineligible"]:
+                print("  Courses with unmet prerequisites:")
+                for c in data["ineligible"]:
+                    unmet = [p for p in c.prerequisites if not course_map.get(p, None) or not course_map[p].is_passed]
+                    print(f"    - {c.code}: {c.name} (missing: {', '.join(unmet)})")
+        print()
