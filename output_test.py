@@ -18,7 +18,7 @@ def recommend_course_plans(courses: list, num_plans: int = 3) -> None:
         return
 
     current_index = semester_order.index(current_semester)
-    future_semesters = semester_order[current_index + 1 : current_index + 4]
+    future_semesters = semester_order[current_index + 1 : current_index + 5]
 
     if not future_semesters:
         print("No future semesters to plan for.")
@@ -55,7 +55,9 @@ def recommend_course_plans(courses: list, num_plans: int = 3) -> None:
 
         for semester, data in plan.items():
             print(f"\n  {semester.title()}")
-
+            for c in data:
+                if c.code == "CSC 326" or c.code == "CSC 327":
+                    print("You must take both CSC 326 and CSC 327 at once. they are co-requisites")
             if data["eligible"]:
                 print("  Eligible courses:")
                 for c in data["eligible"]:

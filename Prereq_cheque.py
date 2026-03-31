@@ -14,6 +14,10 @@ def check_eligibility(courses: list) -> None:
         if not course:
             print(f"Course '{course.code}' not found.")
             continue
+        
+        if course.code == "CSC 326" or course.code == "CSC 327":
+            print("You must take CSC 326 and CSC 327 in the same semester")
+            continue
 
         if not course.prerequisites:
             print(f"You are eligible for {course.code} — no prerequisites required.")

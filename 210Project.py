@@ -31,11 +31,5 @@ def advisor_bot():
     for course in course_objects:
         course.prerequisites = prerequisites_map.get(course.code, []) 
     check_eligibility(course_objects)
-    semester_order = [
-        "year 1 fall", "year 1 spring",
-        "year 2 fall", "year 2 spring",
-        "year 3 fall", "year 3 spring",
-        "year 4 fall", "year 4 spring"
-    ]
-
+    recommend_course_plans(course_objects)
 advisor_bot()

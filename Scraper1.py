@@ -30,9 +30,12 @@ def scrape_computer_science_curriculum(url):
                 # Find all table data cells (td) in the row
                     cells = row.find_all('td')
                     if len(cells) >= 3:
+                        code = cells[0].get_text(strip=True)
+                        if not code:  # skip rows with no course code to exclude total rows
+                            continue
                         course_info = {
                             "year": year_label,
-                            "code": cells[0].get_text(strip=True),
+                            "code": code,
                             "course": cells[1].get_text(strip=True),
                             "credits": cells[2].get_text(strip=True)
                         }
