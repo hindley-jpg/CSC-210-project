@@ -31,6 +31,7 @@ def recommend_course_plans(courses: list, num_plans: int = 3) -> None:
             semester_courses = [c for c in courses if c.year.lower() == semester]
             eligible = []
             ineligible = []
+            total_credits = 0
 
             for course in semester_courses:
                 prereqs_met = all(
@@ -38,34 +39,38 @@ def recommend_course_plans(courses: list, num_plans: int = 3) -> None:
                     for p in course.prerequisites
                     if p in course_map
                 )
+                #check that total credits does not exceed 18
                 if prereqs_met:
-                    eligible.append(course)
+                    if total_credits + course.num_credits <= 18:
+                         eligible.append(course)
+                         total_credits += course.num_credits
+                    else: 
+                        ineligible.append(course)#too many credits
                 else:
                     ineligible.append(course)
 
-            plan[semester] = {"eligible": eligible, "ineligible": ineligible}
+            plan[semester] = {"eligible": eligible, "ineligible": ineligible, "total_credits": total_credits}
         return plan
 
-    # Generate plans by simulating different assumptions about elective choices
-    print(f"\nGenerating {num_plans} possible course plans for the next 3 semesters...\n")
+    #output function controlling plan print
+    print("Generating possible course plan for the next 3 semesters...")
+    plan = build_plan(course_map)
+    for semester, data in plan.items():
+        print(f"\n  {semester.title()}")
+        print(f"\n total credits: {data['total_credits']}/18")
+        if data["eligible"]:
+            print("  Eligible courses:")
+            for c in data["eligible"]:
+                print(f"    - {c.code}: {c.name}")
 
-    for plan_num in range(1, num_plans + 1):
-        print(f"======= Plan {plan_num} =======")
-        plan = build_plan(course_map)
-
-        for semester, data in plan.items():
-            print(f"\n  {semester.title()}")
-            for c in data:
-                if c.code == "CSC 326" or c.code == "CSC 327":
-                    print("You must take both CSC 326 and CSC 327 at once. they are co-requisites")
-            if data["eligible"]:
-                print("  Eligible courses:")
-                for c in data["eligible"]:
-                    print(f"    - {c.code}: {c.name}")
-
-            if data["ineligible"]:
-                print("  Courses with unmet prerequisites:")
-                for c in data["ineligible"]:
-                    unmet = [p for p in c.prerequisites if not course_map.get(p, None) or not course_map[p].is_passed]
+        if data["ineligible"]:
+            print("  Courses with unmet prerequisites:")
+            for c in data["ineligible"]:
+                unmet = [p for p in c.prerequisites if not course_map.get(p, None) or not course_map[p].is_passed]
+                if unmet:
                     print(f"    - {c.code}: {c.name} (missing: {', '.join(unmet)})")
-        print()
+                else:
+                        print(f"    - {c.code}: {c.name} (would exceed 18 credit cap)")
+
+    print()
+      

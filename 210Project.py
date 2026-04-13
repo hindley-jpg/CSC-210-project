@@ -8,6 +8,7 @@ def advisor_bot():
     from Scraper1 import course_objects #bringing in my list of scraped courses from scraper
     from Prereq_cheque import check_eligibility
     from output_test import recommend_course_plans
+    from degree_standing import degree_standing
 
     prerequisites_map = {
     "CSC 123": [],
@@ -32,4 +33,5 @@ def advisor_bot():
         course.prerequisites = prerequisites_map.get(course.code, []) 
     check_eligibility(course_objects)
     recommend_course_plans(course_objects)
+    degree_standing()
 advisor_bot()
