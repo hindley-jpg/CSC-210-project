@@ -33,5 +33,5 @@ def advisor_bot():
         course.prerequisites = prerequisites_map.get(course.code, []) 
     check_eligibility(course_objects)
     recommend_course_plans(course_objects)
-    degree_standing()
+    degree_standing(course_objects)
 advisor_bot()

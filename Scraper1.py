@@ -58,7 +58,4 @@ data = scrape_computer_science_curriculum(url)
 course_objects = [Course(code=item['code'], name=item['course'], num_credits=int(item['credits']),year=item['year']) for item in data]
 
 
-# 3. Verify it worked by accessing an attribute
-print(f"Total objects created: {len(course_objects)}")
-if course_objects:
-    print(f"First course code: {course_objects[0].year}")
+

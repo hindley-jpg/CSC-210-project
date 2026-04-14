@@ -3,7 +3,13 @@
 
 def check_eligibility(courses: list) -> None:
     course_map = {c.code: c for c in courses}
-    
+    def mark_prereqs_passed(code, course_map): #recursive function to mark previous classes as passed
+        course = course_map.get(code)
+        if not course:
+            return
+        course.is_passed = True
+        for prereq_code in course.prerequisites:
+            mark_prereqs_passed(prereq_code, course_map)
     semester = input("What semester are you currently planning? input in the format 'year 1 fall', etc").strip().lower()
     semester_courses = [c for c in courses if c.year.lower() ==semester]
     print(course.code for course in semester_courses)
@@ -30,7 +36,7 @@ def check_eligibility(courses: list) -> None:
                 answer = input(f"Have you passed {prereq_code} - {prereq.name}? (y/n): ").strip().lower()
                 if answer != "y":
                     unmet.append(prereq_code)
-                else: prereq.is_passed = True
+                else: mark_prereqs_passed(prereq_code, course_map)
 
         if unmet:
             print(f"Not eligible for {course.code}: you have not passed {', '.join(unmet)}.")
