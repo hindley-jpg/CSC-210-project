@@ -28,10 +28,23 @@ def advisor_bot():
     "PHIL 362": ["PHIL 202"],
     "TRS 202": ["TRS 201"],
     }
+    semester_order = [
+        "year 1 fall", "year 1 spring",
+        "year 2 fall", "year 2 spring",
+        "year 3 fall", "year 3 spring",
+        "year 4 fall", "year 4 spring"
+    ]
     #applying prerequesite dictionary to course_objects dictionary 
     for course in course_objects:
         course.prerequisites = prerequisites_map.get(course.code, []) 
-    check_eligibility(course_objects)
-    recommend_course_plans(course_objects)
+    semester = input("What semester are you currently planning? input in the format 'year 1 fall', etc").strip().lower()
+    check_eligibility(course_objects, semester, semester_order)
+    recommend_course_plans(course_objects, semester, semester_order)
     degree_standing(course_objects)
+    not_passed = [c for c in course_objects if not c.is_passed]
+    if semester == "year 4 spring":
+        if not not_passed:
+            print("You are ready to graduate")
+        else:
+                print(f"You are not yet eligible to graduate. The following courses have not been passed:{[c.name for c in not_passed]}")
 advisor_bot()

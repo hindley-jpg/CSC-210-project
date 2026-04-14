@@ -1,24 +1,13 @@
-def recommend_course_plans(courses: list, num_plans: int = 3) -> None:
+def recommend_course_plans(courses: list, semester: str, semester_order: list) -> None:
     course_map = {c.code: c for c in courses}
 
-    # Get the current semester from the user
-    current_semester = input("Enter your current semester (e.g. 'Year 1 Fall'): ").strip().lower()
-
-    # Define semester progression order
-    semester_order = [
-        "year 1 fall", "year 1 spring",
-        "year 2 fall", "year 2 spring",
-        "year 3 fall", "year 3 spring",
-        "year 4 fall", "year 4 spring"
-    ]
-
     # Find the 3 semesters following the current one
-    if current_semester not in semester_order:
-        print(f"Semester '{current_semester}' not recognized.")
+    if semester not in semester_order:
+        print(f"Semester '{semester}' not recognized.")
         return
 
-    current_index = semester_order.index(current_semester)
-    future_semesters = semester_order[current_index + 1 : current_index + 5]
+    current_index = semester_order.index(semester)
+    future_semesters = semester_order[current_index : current_index + 5]
 
     if not future_semesters:
         print("No future semesters to plan for.")

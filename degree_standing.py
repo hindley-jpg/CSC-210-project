@@ -8,12 +8,7 @@ def degree_standing (courses:list)-> None:
         print ("You are on academic probation")
     else: 
         print ("keep up the good work!")
-    not_passed = [c["name"] for c in courses if not c.is_passed]
-    if not not_passed:
-        print("You are ready to graduate")
-    else:
-        print(f"You are not yet eligible to graduate. The following courses have not been passed:")
-        for c in not_passed:
-            print(f"  - {c.code}: {c.name}")
+    
+    
     
 
