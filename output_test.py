@@ -57,7 +57,7 @@ def recommend_course_plans(courses: list, semester: str, semester_order: list) -
             for c in data["ineligible"]:
                 unmet = [p for p in c.prerequisites if not course_map.get(p, None) or not course_map[p].is_passed]
                 if unmet:
-                    print(f"    - {c.code}: {c.name} (missing: {', '.join(unmet)})")
+                    print(f"    - {c.code}: {c.name} (you still need to pass: {', '.join(unmet)})")
                 else:
                         print(f"    - {c.code}: {c.name} (would exceed 18 credit cap)")
 
