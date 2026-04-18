@@ -1,6 +1,5 @@
 
-#create prerequisite map and apply it to courses listed in course_objects
-
+#thorough check of eligibility for course scheduling
 def check_eligibility(courses: list, semester: str, semester_order: list) -> None:
     course_map = {c.code: c for c in courses}
     def mark_prereqs_passed(code, course_map): #recursive function to mark previous classes as passed
@@ -42,11 +41,11 @@ def check_eligibility(courses: list, semester: str, semester_order: list) -> Non
         if not course:
             print(f"Course '{course.code}' not found.")
             continue
-        
+        #deal with co-requisites
         if course.code == "CSC 326" or course.code == "CSC 327":
             print("You must take CSC 326 and CSC 327 in the same semester")
             continue
-
+        #premise is false; vacuous truth
         if not course.prerequisites:
             print(f"You are eligible for {course.code} — no prerequisites required.")
             continue
@@ -54,7 +53,7 @@ def check_eligibility(courses: list, semester: str, semester_order: list) -> Non
         
         for prereq_code in course.prerequisites:
             prereq = course_map.get(prereq_code)
-            if prereq and not prereq.is_passed:
+            if prereq and not prereq.is_passed: #p is true, q is false
                 answer = input(f"Have you passed {prereq_code} - {prereq.name}? (y/n): ").strip().lower()
                 if answer != "y":
                     unmet.append(prereq_code)

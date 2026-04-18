@@ -10,7 +10,7 @@ def advisor_bot():
     from output_test import recommend_course_plans
     from degree_standing import degree_standing
 
-    prerequisites_map = {
+    prerequisites_map = {#mapping prerequisites onto course objects
     "CSC 123": [],
     "CSC 223": ["CSC 123"],
     "CSC 212": ["CSC 210"],
@@ -28,7 +28,7 @@ def advisor_bot():
     "PHIL 362": ["PHIL 202"],
     "TRS 202": ["TRS 201"],
     }
-    semester_order = [
+    semester_order = [#defining sequence for semesters
         "year 1 fall", "year 1 spring",
         "year 2 fall", "year 2 spring",
         "year 3 fall", "year 3 spring",

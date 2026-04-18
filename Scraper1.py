@@ -53,9 +53,6 @@ url = "https://engineering.catholic.edu/academics/undergraduate/computer-science
 # Execute the scraper
 data = scrape_computer_science_curriculum(url)
 #option to filter results
-
 #list of objects for each course scraped
 course_objects = [Course(code=item['code'], name=item['course'], num_credits=int(item['credits']),year=item['year']) for item in data]
-
-
 
